@@ -114,26 +114,7 @@ void split_the_line(char *l, char *s, char *t)
 {
 	int i, j;
 	i = 0;
-	if(isIDalpha(*l))
-	{/* The line has a label starting */
-		/* on the first character of it. */
-		while(isIDchar(l[i]))
-			i++;
-		j = i; /* j is the length of the label */
-		while(isspace(l[i]))
-			i++; /* Step over the spaces after the label. */
-		if(l[i] == ':')
-			i++; /* A colon can terminate the label.      */
-		if(l[i] == '=')
-			i--; /* If the line assignes value to a variable. */
-		while(isspace(l[i]))
-			i++; /* Step over the spaces after the colon. */
-		if(j)
-			strncpy(s, l, j); /* Copy the label to s. 	   */
-		s[j] = '\0';
-		strcpy(t, &(l[i])); /* Copy the rest of the line to t. */
-		return;
-	}
+	
 	/* If the first character of the line is not IDalpha then :  */
 	while(isspace(l[i]))
 		i++;/* Step over the spaces being */
