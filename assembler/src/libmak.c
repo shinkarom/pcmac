@@ -97,7 +97,7 @@ void write_library(void)
 			{
 				fprintf(libfile, "%d:", macptr->nrofsets);
 				for(j = 0; j < macptr->nrofsets; j++)
-					fprintf(libfile, "%ld,", ((macptr->setsymbols)[j])->value_of_the_symbol);
+					fprintf(libfile, "%lld,", ((macptr->setsymbols)[j])->value_of_the_symbol);
 
 				fprintf(libfile, "\n%s\n", macptr->sdef);
 

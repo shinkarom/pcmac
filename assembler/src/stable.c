@@ -215,7 +215,7 @@ static void list_tree(struct symbol *j)
 		case VARIABLE:
 		{
 			fprintf(listfile, "%32s %cR ", j->name_of_the_symbol, j->relocatable ? ' ' : 'N');
-			fprintf(listfile, "%08lX\n", j->value_of_the_symbol);
+			fprintf(listfile, "%16llX\n", j->value_of_the_symbol);
 		}
 	}
 }/* End of the function list_tree() */
@@ -252,7 +252,7 @@ static void write_tree(struct symbol *j)
 				fprintf(fp, " doreloc(");
 			else
 				fprintf(fp, "doureloc(");
-			fprintf(fp, "0%08lXh )\n", j->value_of_the_symbol);
+			fprintf(fp, "0%16llXh )\n", j->value_of_the_symbol);
 			break;
 		default:
 			break;

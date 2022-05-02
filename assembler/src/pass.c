@@ -139,7 +139,7 @@ void dopas(void)
 					if(ptr->value_of_the_symbol - *dollar != phaseoffset)
 					{
 						phaseoffset = ptr->value_of_the_symbol - *dollar;
-						sprintf(name, "Phase error between passes!\nThe %s symbol was %ld and now it is %ld!",
+						sprintf(name, "Phase error between passes!\nThe %s symbol was %lld and now it is %lld!",
 								ptr->name_of_the_symbol, ptr->value_of_the_symbol, *dollar);
 						error(name, NORMAL);
 					}
@@ -221,7 +221,7 @@ void dopas(void)
 				if(ptr->value_of_the_symbol - value_of_the_expression != phaseoffset)
 				{
 					phaseoffset = ptr->value_of_the_symbol - value_of_the_expression;
-					sprintf(name, "Phase error between passes!\nThe %s symbol was %ld and now it is %ld!",
+					sprintf(name, "Phase error between passes!\nThe %s symbol was %lld and now it is %lld!",
 							ptr->name_of_the_symbol, ptr->value_of_the_symbol, value_of_the_expression);
 					error(name, NORMAL);
 				}
@@ -238,7 +238,7 @@ void dopas(void)
 			if(!mslast || maclist)
 			{/* If we are not in a macro. */
 				/* Or macro listing is on.   */
-				sprintf(name, "%0*lX", ADDRESS, value_of_the_expression);
+				sprintf(name, "%0*llX", ADDRESS, value_of_the_expression);
 				for(i = 0; i < ADDRESS; i++)
 					listline[i] = name[i];
 			}
@@ -261,7 +261,7 @@ void dopas(void)
 				if(ptr->value_of_the_symbol - *dollar != phaseoffset)
 				{
 					phaseoffset = ptr->value_of_the_symbol - *dollar;
-					sprintf(name, "Phase error between passes!\nThe %s symbol was %ld and now it is %ld!",
+					sprintf(name, "Phase error between passes!\nThe %s symbol was %lld and now it is %lld!",
 							ptr->name_of_the_symbol, ptr->value_of_the_symbol, *dollar);
 					error(name, NORMAL);
 				}
@@ -274,7 +274,7 @@ void dopas(void)
 		else if(*label && (!mslast || maclist))
 		{
 			/* If there is no line but there is label. */
-			sprintf(name, "%0*lX", ADDRESS, value_of_the_expression);
+			sprintf(name, "%0*llX", ADDRESS, value_of_the_expression);
 			for(i = 0; i < ADDRESS; i++)
 				listline[i] = name[i];
 		}

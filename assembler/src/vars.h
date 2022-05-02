@@ -81,7 +81,7 @@ extern unsigned valtype *symtline;
  value of the 'pass' symbol was scheduled. */
 extern unsigned valtype *sympass;
 /* To calculate the size of the generated code. */
-extern unsigned long dollmin, dollmax;
+extern unsigned valtype dollmin, dollmax;
 /* Counting the conditional compiling levels. */
 extern int ondeep, offdeep;
 /* Counting the macro nesting deepness,

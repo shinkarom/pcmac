@@ -72,7 +72,7 @@ void generate_byte(int byte)
 		}
 		if(!nrprvl)
 		{
-			sprintf(name, "%0*lX", ADDRESS, *dollar);
+			sprintf(name, "%0*llX", ADDRESS, *dollar);
 			for(i = 0; i < ADDRESS; i++)
 				listline[i] = name[i];
 		}

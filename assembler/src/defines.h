@@ -145,7 +145,7 @@
 /* SPACEAT eats the spaces */
 #define SPACEAT while( isspace(*first_unused_character) ) first_unused_character++
 
-#define valtype long
+#define valtype long long
 
 #ifdef tolower
 #undef tolower

@@ -1088,7 +1088,7 @@ static void func_def_byte(void)
 					error("Relocatable data for a byte.", WARNING);
 				if((value < -128 || value > 255) && pass == 2)
 				{
-					sprintf(name, "Not 8 bit value(%lx) for a byte.", value);
+					sprintf(name, "Not 8 bit value(%llx) for a byte.", value);
 					error(name, NORMAL);
 				}
 				if(err == RPARENTMISSING)
@@ -1182,7 +1182,7 @@ void do_primitive(char *ss)
 						value -= *dollar + 1;
 						if((value < -128 || value > 255) && pass == 2)
 						{
-							sprintf(name, "Not 8 bit value(%lx) for a byte.", value);
+							sprintf(name, "Not 8 bit value(%llx) for a byte.", value);
 							error(name, NORMAL);
 						}
 						if(err == RPARENTMISSING || err == SERROR)

@@ -364,8 +364,8 @@ int main(int argc, char **argv, char **env)
 	printf("Warning%c : %u\n", nrwarnings > 1 ? 's' : ' ', nrwarnings);
 	if(!first_flag)
 	{
-		printf("Start of the code : %lu\n", dollmin);
-		printf("End   of the code : %lu\n", dollmax);
+		printf("Start of the code : %llu\n", dollmin);
+		printf("End   of the code : %llu\n", dollmax);
 	}
 	else
 		printf("No code.\n");
@@ -375,8 +375,8 @@ int main(int argc, char **argv, char **env)
 		fprintf(listfile, "Warning%c : %u\n", nrwarnings > 1 ? 's' : ' ', nrwarnings);
 		if(!first_flag)
 		{
-			fprintf(listfile, "Start of the code : %lu\n", dollmin);
-			fprintf(listfile, "End   of the code : %lu\n", dollmax);
+			fprintf(listfile, "Start of the code : %llu\n", dollmin);
+			fprintf(listfile, "End   of the code : %llu\n", dollmax);
 		}
 		else
 			fprintf(listfile, "No code.\n");
@@ -684,9 +684,9 @@ static int serch_in_set(char *lexeme, struct set *set_to_search_in, char **giveb
 		if(err == UNDEFLABEL)
 			relocat = 0;
 		if(relocat)
-			sprintf(name, "doreloc(%lu)", value);
+			sprintf(name, "doreloc(%llu)", value);
 		else
-			sprintf(name, "%lu", value);
+			sprintf(name, "%llu", value);
 		*giveback = (char *)malloc(strlen(name) + 1);
 		if(!*giveback)
 			error("End of memory!", FATAL);

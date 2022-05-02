@@ -45,7 +45,7 @@ struct macro
 struct symbol
 {
 	int type_of_the_symbol;
-	unsigned long value_of_the_symbol;
+	unsigned valtype value_of_the_symbol;
 	char *name_of_the_symbol;
 	struct set *stpointer;
 	int relocatable;
