@@ -136,12 +136,12 @@ int asciiradix;
 /* the file system readed a #macros or  */
 /* #include directive				    */
 int lmori;
-/* Two flags driving the DW and DD which order
- ** to generate bytes, words.
+/* Three flags driving the DQ, DW and DD which order
+ ** to generate bytes, words, dwords.
  ** The default is: Lower Higher
  ** is set in init.c
  */
-int dwflag, ddflag;
+int dqflag, dwflag, ddflag;
 /* This variable contains the macro argumentum prefix. */
 int macarg;
 /* This variable contains the macro numbering character. */

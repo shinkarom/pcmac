@@ -80,6 +80,7 @@ void read_library(void)
 	c = getc(libfile);
 	dwflag = c & 1;
 	ddflag = c / 2;
+	dqflag = c / 4;
 	/* The number of the sets. */
 	getint(&Nrofsets);
 	if(Nrofsets < 3)

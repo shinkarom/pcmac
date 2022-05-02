@@ -72,7 +72,7 @@ void write_library(void)
 	/* The macro numbering character. */
 	fprintf(libfile, "%c", macnum);
 	/* The direction. */
-	fprintf(libfile, "%c", dwflag + 2 * ddflag);
+	fprintf(libfile, "%c", dwflag + 2 * ddflag + 4 * dqflag);
 	/* file is the number of the sets. */
 	fprintf(libfile, "%d\n", Nrofthesets);
 

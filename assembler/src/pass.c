@@ -139,7 +139,7 @@ void dopas(void)
 					if(ptr->value_of_the_symbol - *dollar != phaseoffset)
 					{
 						phaseoffset = ptr->value_of_the_symbol - *dollar;
-						sprintf(name, "Phase error between passes!\nThe %s symbol was %lld and now it is %lld!",
+						sprintf(name, "Phase error between passes!\nThe %s symbol was %llu and now it is %llu!",
 								ptr->name_of_the_symbol, ptr->value_of_the_symbol, *dollar);
 						error(name, NORMAL);
 					}

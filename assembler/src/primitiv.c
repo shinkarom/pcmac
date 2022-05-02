@@ -585,6 +585,23 @@ static void func_decimal(void)
 		asciiradix = 10;
 	}
 }
+
+static void func_dq(void)
+{
+	if( !fly_over_the_lines )
+	{
+		while( isalpha( *s ) ) s++;
+		while(isspace(*s))
+			s++;
+		if(check_directive(s, "lh"))
+			dqflag = 1;
+		else if(check_directive(s, "hl"))
+			dqflag = 0;
+		else
+			error("Unknown byte order in the #dq directive.", NORMAL);
+	}
+}
+
 static void func_dw(void)
 {
 	if( !fly_over_the_lines )
@@ -889,6 +906,10 @@ static void func_direc(void)
 	else if(check_directive(s, "decimal"))
 	{
 		func_decimal();
+	}
+	else if(check_directive(s, "dq"))
+	{
+		func_dq();
 	}
 	else if(check_directive(s, "dw"))
 	{
@@ -1294,6 +1315,8 @@ void do_primitive(char *ss)
 							/* In pass 1 can be undefined =>nonreloc */
 							error("Non relocatable for dword offset!",
 							WARNING);
+						if((value < -2147483648ll || value > 4294967295ll) && pass == 2)
+							error("Not 32 bit value for a dword.", NORMAL);
 						if(err == RPARENTMISSING || err == SERROR)
 							error("Syntax error in the expression.", NORMAL);
 						if(pass == 2 && err == UNDEFLABEL)
@@ -1328,11 +1351,82 @@ void do_primitive(char *ss)
 						expression(first_unused_character, &value, &err, &reloc);
 						if(reloc)
 							note_reloc( DEFDWORD);
+						if((value < -2147483648ll || value > 4294967295ll) && pass == 2)
+							error("Not 32 bit value for a dword.", NORMAL);
 						if(err == RPARENTMISSING || err == SERROR)
 							error("Syntax error in the expression.", NORMAL);
 						if(pass == 2 && err == UNDEFLABEL)
 							error("Undefined label in the expression.", NORMAL);
 						generate_dword(value);
+					}
+				} while(symbol == COMMA);
+				if(symbol != UNKNOWN)
+					error("Unexpected characters on the end of the line.", NORMAL);
+				break;
+			case DEFRQUAD:
+				do
+				{
+					s = first_unused_character;
+					getsymbol();
+					SPACEAT;
+					if(symbol == IDENTIFIER && (*first_unused_character == ',' || !*first_unused_character) && (symptr =
+							search_in_the_table(name))->type_of_the_symbol == EXTERNAL)
+					{
+						if(objgen)
+							external_reference(symptr->value_of_the_symbol, DEFRQUAD);
+						else
+							error("Referencing external(q) while no -o option.",
+							NORMAL);
+						generate_quad(0);
+						getsymbol();
+					}
+					else
+					{
+						first_unused_character = s;
+						expression(first_unused_character, &value, &err, &reloc);
+						if(!reloc && pass == 2)
+							/* In pass 1 can be undefined =>nonreloc */
+							error("Non relocatable for dword offset!",
+							WARNING);
+						if(err == RPARENTMISSING || err == SERROR)
+							error("Syntax error in the expression.", NORMAL);
+						if(pass == 2 && err == UNDEFLABEL)
+							error("Undefined label in the expression.", NORMAL);
+						value -= *dollar + 8;
+						generate_quad(value);
+					}
+				} while(symbol == COMMA);
+				if(symbol != UNKNOWN)
+					error("Unexpected characters on the end of the line.", NORMAL);
+				break;
+			case DEFQUAD:
+				do
+				{
+					s = first_unused_character;
+					getsymbol();
+					SPACEAT;
+					if(symbol == IDENTIFIER && (*first_unused_character == ',' || !*first_unused_character) && (symptr =
+							search_in_the_table(name))->type_of_the_symbol == EXTERNAL)
+					{
+						if(objgen)
+							external_reference(symptr->value_of_the_symbol, DEFQUAD);
+						else
+							error("Referencing external(q) while no -o option.",
+							NORMAL);
+						generate_quad(0);
+						getsymbol();
+					}
+					else
+					{
+						first_unused_character = s;
+						expression(first_unused_character, &value, &err, &reloc);
+						if(reloc)
+							note_reloc( DEFQUAD);
+						if(err == RPARENTMISSING || err == SERROR)
+							error("Syntax error in the expression.", NORMAL);
+						if(pass == 2 && err == UNDEFLABEL)
+							error("Undefined label in the expression.", NORMAL);
+						generate_quad(value);
 					}
 				} while(symbol == COMMA);
 				if(symbol != UNKNOWN)

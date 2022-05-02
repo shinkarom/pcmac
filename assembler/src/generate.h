@@ -11,6 +11,7 @@
 void generate_byte(int byte);
 void generate_word(int word);
 void generate_dword(unsigned long dword);
+void generate_quad(unsigned long long quad);
 void note_reloc(int k);
 
 #endif /* GENERATE_H_ */

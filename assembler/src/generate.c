@@ -93,7 +93,7 @@ void generate_byte(int byte)
 			if(codepos == 255 || (codepos && *dollar != predoll + 1))
 				flush_code();
 			if(!codepos)
-				fadblk = (unsigned long)*dollar;
+				fadblk = (unsigned valtype)*dollar;
 			code[codepos++] = byte;
 		}
 		else
@@ -125,6 +125,17 @@ void generate_dword(unsigned long dword)
 		generate_word(dword);
 }
 
+void generate_quad(unsigned long long quad)
+{
+	if(dqflag)
+		generate_dword(quad);
+
+	generate_dword(quad >> BITSPERWORD);
+
+	if(!dqflag)
+		generate_dword(quad);
+}
+
 void note_reloc(int k)
 {
 	if(pass != 2 || !objgen)
@@ -139,6 +150,8 @@ void note_reloc(int k)
 		rebuff[rebuffpos].size = 0;
 	else if(k == DEFDWORD)
 		rebuff[rebuffpos].size = 0xf0;
+	else if(k == DEFQUAD)
+		rebuff[rebuffpos].size = 0xe0;
 	else
 		error("014 internal error!", INTERNAL);
 	rebuff[rebuffpos].address = *dollar;

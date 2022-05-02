@@ -75,6 +75,7 @@ static void init_symbol_table(void)
 	asciiradix = 8;
 	dwflag = 1;
 	ddflag = 1;
+	dqflag = 1;
 	macarg = '#';
 	macnum = '@';
 	nexternal = 0;

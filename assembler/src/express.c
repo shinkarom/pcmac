@@ -808,8 +808,8 @@ void getsymbol(void)
 	A_reswords[] = {{"ND", ANDSYMBOL},	{NULL, 0}},
 	C_reswords[] = {{"ONST", DEFSET},	{NULL, 0 }},
 
-	D_reswords[] = {{ "B", DEFBYTE},	{"D", DEFDWORD}, {"ORELOC", DORELOCFUN}, {"OURELOC", DOURELOCFUN},
-					{"RB", DEFRBYTE},	{"RD", DEFRDWORD},	{"RW", DEFRWORD}, {"W", DEFWORD}, {NULL, 0}},
+	D_reswords[] = {{ "B", DEFBYTE},	{"D", DEFDWORD}, {"ORELOC", DORELOCFUN}, {"OURELOC", DOURELOCFUN}, {"Q", DEFQUAD},
+					{"RB", DEFRBYTE},	{"RD", DEFRDWORD}, {"RQ", DEFRQUAD},	{"RW", DEFRWORD}, {"W", DEFWORD}, {NULL, 0}},
 
 	E_reswords[] = {{"NDM", ENDMACRO},	{"XTRN", EXTERNAL},	{"XTERN", EXTERNAL},	{NULL, 0}},
 	I_reswords[] = {{"SDEF", DEFFUN},	{"SRELOC", ISRELOCFUN}, {NULL, 0}},

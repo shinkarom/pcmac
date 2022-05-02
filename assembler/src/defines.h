@@ -66,6 +66,8 @@
 #define DEFRWORD		56
 #define DEFRDWORD		57
 #define STRIDXFUN		58
+#define DEFQUAD      59
+#define DEFRQUAD     60
 
 #define DOLLAR				"$"
 #define SETMEMBERSEPARATOR	'\n'
@@ -119,6 +121,7 @@
 
 #define BITSPERBYTE		8
 #define BITSPERINT		16
+#define BITSPERWORD     32
 #define BYTEMASK		0xff
 #define INTMASK			0xffff
 

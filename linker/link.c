@@ -102,17 +102,17 @@ struct fl {
    Calculated value: dollstart where the code of
    the actual object will start in the tsk file.
 */
-	unsigned long dollmin,dollmax,dollstart;
+	unsigned long long dollmin,dollmax,dollstart;
 	/* A flag 1 while there was no code in the object file. */
 	int firstflag;
 	/* The number of the relocatable addresses. */
-	unsigned long nreloc;
+	unsigned long long nreloc;
 	/* The number of the public definitions. */
-	unsigned long nrpub;
+	unsigned long long nrpub;
 	/* The number of the external definitions. */
-	unsigned long nredef;
+	unsigned long long nredef;
 	/* The number of the external references. */
-	unsigned long nreref;
+	unsigned long long nreref;
 	/* Array for the external definitions. */
 	/* This array is filled up following   */
 	/* the given identifying numbers.      */
@@ -135,7 +135,7 @@ struct symbol **public;
 char *outfilnam;
 /* The base is given by the user in the command line. */
 /* The default is zero */
-unsigned long base;
+unsigned long long base;
 /* An array for the code. */
 unsigned char *code;
 /* A help variable containing the name of an identifier. */
@@ -740,8 +740,13 @@ void do_relocation( file )struct fl *file;{
 			hvar += offset;
 			pw( offset+reloc[i].address  - base, hvar );
 		}
-		else{/*DWORD*/
+		else if( reloc[i].type == 0xF0 ) {/*DWORD*/
 			hvar = gdw(offset+reloc[i].address - base);
+			hvar += offset;
+			pdw(offset+reloc[i].address - base,hvar);
+		}
+		else if( reloc[i].type == 0xE0 ) {/*QUAD*/
+			hvar = gq(offset+reloc[i].address - base);
 			hvar += offset;
 			pdw(offset+reloc[i].address - base,hvar);
 		}

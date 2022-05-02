@@ -52,12 +52,12 @@
  **
  **
  ** The body of a block:
- ** CODE: 4ADDRESS 1NRofBYTES bytes
- ** RELOC: 1NRofITEMS ITEMS( 1SIZE[0W F0D] 4ADDRESS)
- ** PUB: 1(0=NREL F0=REL) name \0 4VALUE
+ ** CODE: 8ADDRESS 1NRofBYTES bytes
+ ** RELOC: 1NRofITEMS ITEMS( 1SIZE[0W F0D] 8ADDRESS)
+ ** PUB: 1(0=NREL F0=REL) name \0 8VALUE
  ** EXTDEF: name \0 2IDTFNUM
  ** EXTREF: 1NRofITEMS ITEMS(2IDTFNUM 1TYPE[
- **         1BYTE 2WORD 4DWORD feRBYTE fdRWORD fbRDWORD] 4ADDRESS)
+ **         1BYTE 2WORD 4DWORD 8QUAD feRBYTE fdRWORD fbRDWORD faRQUAD] 8ADDRESS)
  **
  */
 
@@ -66,7 +66,7 @@
 
 
 
-static char *split_long(unsigned long p);
+static char *split_valtype(unsigned valtype p);
 static void open_block(int k);
 static void close_block(void);
 static void gext_tree(struct symbol *j);
@@ -75,12 +75,12 @@ static void gext_tree(struct symbol *j);
 
 
 
-static char *split_long(unsigned long p)
+static char *split_valtype(unsigned valtype p)
 {
-	static char k[4];
+	static char k[sizeof(valtype)];
 	int i;
 
-	for(i = 0; i < 4; i++)
+	for(i = 0; i < sizeof(valtype); i++)
 	{
 		k[i] = p % 0x100;
 		p /= 0x100;
@@ -111,7 +111,7 @@ static void close_block(void)
 	for(i = 0; i < linkbuffpos; i++)
 		chk ^= linkbuff[i];
 	putC(linkbloctype);
-	p = split_long((valtype)linkbuffpos);
+	p = split_valtype((valtype)linkbuffpos);
 	putC(p[0]);
 	putC(p[1]);
 	for(i = 0; i < linkbuffpos; i++)
@@ -141,7 +141,7 @@ static void gext_tree(struct symbol *j)
 		for(i = 0; j->name_of_the_symbol[i]; i++)
 			fill(j->name_of_the_symbol[i]);
 		fill(0);/* Close the name*/
-		p = split_long(j->value_of_the_symbol);
+		p = split_valtype(j->value_of_the_symbol);
 		fill(p[0]);
 		fill(p[1]);
 		close_block();
@@ -162,11 +162,15 @@ static void gext_tree(struct symbol *j)
 		for(i = 0; j->name_of_the_symbol[i]; i++)
 			fill(j->name_of_the_symbol[i]);
 		fill(0);/* Close the name*/
-		p = split_long(j->value_of_the_symbol);
+		p = split_valtype(j->value_of_the_symbol);
 		fill(p[0]);
 		fill(p[1]);
 		fill(p[2]);
 		fill(p[3]);
+		fill(p[4]);
+		fill(p[5]);
+		fill(p[6]);
+		fill(p[7]);
 		close_block();
 
 	}
@@ -176,14 +180,15 @@ void external_reference(valtype idtf, int type)
 {
 	char *p;
 
-	if(type != DEFBYTE && type != DEFWORD && type != DEFDWORD && type != DEFRBYTE && type != DEFRWORD
-			&& type != DEFRDWORD)
+	if(type != DEFBYTE && type != DEFWORD && type != DEFDWORD 
+		&& type != DEFRBYTE && type != DEFRWORD	&& type != DEFRDWORD
+		&& type != DEFQUAD && type != DEFRQUAD)
 		error("015 Internal error", INTERNAL);
 	if(pass == 2)
 	{
 		open_block(LINKEXTREF);
 		fill(1); /*number of the items*/
-		p = split_long(idtf);
+		p = split_valtype(idtf);
 		fill(p[0]);
 		fill(p[1]);
 		switch(type)
@@ -197,6 +202,9 @@ void external_reference(valtype idtf, int type)
 			case DEFDWORD:
 				fill(0x04);
 				break;
+			case DEFQUAD: 
+				fill(0x08);
+				break
 			case DEFRBYTE:
 				fill(0xfe);
 				break;
@@ -206,12 +214,19 @@ void external_reference(valtype idtf, int type)
 			case DEFRDWORD:
 				fill(0xfb);
 				break;
+			case DEFRQUAD:
+				fill(0xea);
+				break;
 		}
-		p = split_long(*dollar);
+		p = split_valtype(*dollar);
 		fill(p[0]);
 		fill(p[1]);
 		fill(p[2]);
 		fill(p[3]);
+		fill(p[4]);
+		fill(p[5]);
+		fill(p[6]);
+		fill(p[7]);
 		close_block();
 	}
 }
@@ -239,11 +254,15 @@ void flush_rebuff(void)
 	while(rebuffpos--)
 	{
 		fill(rebuff[rebuffpos].size);
-		p = split_long(rebuff[rebuffpos].address);
+		p = split_valtype(rebuff[rebuffpos].address);
 		fill(p[0]);
 		fill(p[1]);
 		fill(p[2]);
 		fill(p[3]);
+		fill(p[4]);
+		fill(p[5]);
+		fill(p[6]);
+		fill(p[7]);
 	}
 	close_block();
 }
@@ -256,11 +275,15 @@ void flush_code(void)
 		return;
 
 	open_block( LINKCODE);
-	p = split_long(fadblk);
+	p = split_valtype(fadblk);
 	fill(p[0]);
 	fill(p[1]);
 	fill(p[2]);
 	fill(p[3]);
+	fill(p[4]);
+	fill(p[5]);
+	fill(p[6]);
+	fill(p[7]);
 	fill(codepos);
 	for(i = 0; i < codepos; i++)
 		fill(code[i]);
